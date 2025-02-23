@@ -1,0 +1,16 @@
+{
+  "name": "ameca",
+  "version": "1.0.0",
+  "main": "app_amk_liquis.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app_amk_liquis.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "exceljs": "^4.4.0"
+  }
+}

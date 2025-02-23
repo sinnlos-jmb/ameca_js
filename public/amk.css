@@ -1,0 +1,126 @@
+        body {
+            font-family: Arial, sans-serif;
+            margin: 5px;
+            padding: 5px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .grid-container {
+    		display: grid;
+    		grid-template-columns: 190px 60px 40px 40px 1fr 310px 175px 75px;
+    		gap: 5px;
+    		align-items: center;
+    		width:98%;
+    		height: 75px;
+    		text-align: center;
+			}
+		.table-container {
+    		max-height: 75vh; /* Adjust height as needed */
+    		overflow-y: auto; /*border: 1px solid #ddd; Optional: Adds a border around the table */
+		}
+			
+        .table1 {
+            width: 2500px;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .table2 {
+        border: 1px solid lightgray;
+        border-radius: 14px;
+        }
+        .td2 {
+        padding:2px;
+        }
+        
+        .td_msg {
+        	font-size: large;
+  			height: 50px;
+  			}
+        
+        
+.th3 {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa; /* Light gray background */
+    z-index: 2; /* Ensures header stays above content */
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #ddd; /* Adds a border below header */
+}
+th3, td3 {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+        
+        .th3, .td3 {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+            z-index:3;
+        }
+        
+.th3:nth-child(2), .th3:nth-child(3), .th3:nth-child(4){
+    position: sticky;
+    z-index: 4;
+}
+ 
+.td3:nth-child(2), .td3:nth-child(3), .td3:nth-child(4) {
+    position: sticky;
+    background: inherit;
+    z-index: 2;
+}
+
+.td3:nth-child(2), .th3:nth-child(2) { left: 0px; width:111px; }
+.td3:nth-child(3), .th3:nth-child(3) { left: 131px; width:157px;}
+.td3:nth-child(4), .th3:nth-child(4) { left: 290px; width:157px }
+
+        .th3 {
+            background-color: #007bff;
+            color: white;
+        }
+
+		.tr3:nth-child(even) {
+  		background-color: lavender;
+		}
+		.tr3:nth-child(odd) {
+  		background-color: white;
+		}
+        
+        .input2 {
+        	display: inline; 
+        	width:20px; 
+        	padding:0px;
+        	}
+        button, select {
+            display: block;
+            margin: 10px auto;
+            padding: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display:inline;
+            border-radius: 10px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        li {
+            background: white;
+            padding: 10px;
+            margin: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }

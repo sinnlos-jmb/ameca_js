@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquidaciones - Ameca</title>
+    <link rel='stylesheet' href='/amk.css'>
+</head>
+
+<body>
+    <h1>Panel de control - Liquidaciones</h1>
+    <div class="grid-container">
+    	<div  style="text-align: center;">
+    	<label for="period-select">Periodo:</label>
+    	<select id="period-select" style="display: inline;">
+        	<option value="202512">202512</option>
+        	<option value="202511">202511</option>
+        	<option value="202510">202510</option>
+        	<option value="202509">202509</option>
+        	<option value="202508">202508</option>
+        	<option value="202507">202507</option>
+        	<option value="202506">202506</option>
+        	<option value="202505">202505</option>
+        	<option value="202504">202504</option>
+        	<option value="202503">202503</option>
+        	<option value="202502">202502</option>
+        	<option value="202501">202501</option>
+        	<option value="202412">202412</option>
+        	<option value="202411">202411</option>
+        	<option value="202410">202410</option>
+        	<option value="202409">202409</option>
+        	<option value="202408">202408</option>
+        	<option value="202407">202407</option>
+        	<option value="202406">202406</option>
+        	<option value="snap">snapshot</option>
+    	</select>
+    	</div>
+    	<div>
+    	<button onclick="fetchData()" style="width:50px;">Ver</button>
+    	</div>
+    	
+    	<div>    	
+    <a href="javascript:if (confirm('eliminar datos del periodo?')) {deletePeriod();}"><input type="image" src="/delete.png" /></a>    	
+    	</div>
+    	
+    	<div>    
+    <a href="javascript:if (confirm('descargar datos del periodo?')) {downExc();}"><input type="image" src="/excel(32).png" /></a>
+    	</div>
+    	
+    	<div></div>
+    	
+    	<div style="display:contents">
+    	
+    		<table class="table2">
+    		<tr>
+    		<td class="td2">
+	    	<label for="porc_bi">base imponible: </label>
+    		<input type="text" id="porc_bi" name="porc_bi" class="input2">%
+    		</td>
+    		
+    		<td class="td2">
+	    	<label for="porc_compras">compras: </label>
+    		<input type="text" id="porc_compras" name="porc_compras" class="input2">%
+    		</td>
+    		</tr>
+
+    		<tr>
+    		<td class="td2">
+	    	<label for="perc_iva">percepcion iva: </label>
+    		<input type="text" id="perc_iva" name="perc_iva" class="input2">%
+    		</td>
+    		
+    		<td class="td2">
+	    	<label for="perc_iibb">perc. iibb: </label>
+    		<input type="text" id="perc_iibb" name="perc_iibb" class="input2">%
+    		</td>
+    		</tr>
+		</table>    		
+    		
+    	</div>
+    	<div  style="text-align: center;">
+    	<label for="period-dest">Destino: </label>
+    	<select id="period-dest" style="display: inline;">
+        	<option value="snap">snapshot</option>
+        	<option value="202512">202512</option>
+        	<option value="202511">202511</option>
+        	<option value="202510">202510</option>
+        	<option value="202509">202509</option>
+        	<option value="202508">202508</option>
+        	<option value="202507">202507</option>
+        	<option value="202506">202506</option>
+        	<option value="202505">202505</option>
+        	<option value="202504">202504</option>
+        	<option value="202503">202503</option>
+        	<option value="202502">202502</option>
+        	<option value="202501">202501</option>
+        	<option value="202412">202412</option>
+        	<option value="202411">202411</option>
+        	<option value="202410">202410</option>
+        	<option value="202409">202409</option>
+        	<option value="202408">202408</option>
+        	<option value="202407">202407</option>
+        	<option value="202406">202406</option>
+    	</select>
+    	</div>
+    	<div>
+	    	<button onclick="if (confirm('cargar nuevos datos al periodo?')) {insertPeriod();}">Guardar</button>
+   		</div> 	
+    	
+	</div>
+
+    <div class="table-container">
+    <table id="data-table" class="table1">
+        <thead>
+            <tr>
+                <th class="th3">ID</th>
+                <th class="th3">CUIT</th>
+                <th class="th3">Nombre</th>
+                <th class="th3">Direccion</th>
+                <th class="th3">Zona</th>
+                <th class="th3">Periodo</th>
+                <th class="th3">Alic. IVA</th>
+                <th class="th3">Alic. IIBB</th>
+                <th class="th3">Base Imponible</th>
+                <th class="th3">Debito IVA</th>
+                <th class="th3">Venta Total</th>
+                <th class="th3">Compra IVA</th>
+                <th class="th3">Credito IVA</th>
+                <th class="th3">Compra Total</th>
+                <th class="th3">Percepcion IVA</th>
+                <th class="th3">Saldo IVA</th>
+                <th class="th3">Debito IIBB</th>
+                <th class="th3">Percepcion IIBB</th>
+                <th class="th3">Saldo IIBB</th>
+                <th class="th3">Saldo IVA Reporte</th>
+                <th class="th3">Saldo IIBB Reporte</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    </div>
+    <br>
+
+
+
+    <script>
+    
+//delete
+        async function deletePeriod() {
+            const period = document.getElementById('period-select').value;
+            const response = await fetch(`/delete?period=${period}`);
+            const data = await response.json();
+            const tableBody = document.querySelector('#data-table tbody');
+            tableBody.innerHTML = '';
+			const tr = document.createElement('tr');
+			document.href="/data?period=${data.period}";
+           	tr.innerHTML ="<td colspan='12' class='td_msg'> "+data.msg+".</td></tr>";
+			tableBody.appendChild(tr);
+			}
+
+
+
+//download
+        async function downExc() {
+            const period = document.getElementById('period-select').value;
+            const response = await fetch(`/excel?period=${period}`);
+
+            const data = await response.json();
+            
+			if (data.success) {
+            	alert("Planilla Excel generada correctamente! Click OK para descargar.");
+            	window.location.href = data.fileUrl; // Trigger download
+        		} 
+        	else { alert("Error al generar la planilla Excel: " + data.message); }
+            
+            const tableBody = document.querySelector('#data-table tbody');
+            tableBody.innerHTML = '';
+			const tr = document.createElement('tr');
+           	tr.innerHTML ="<td colspan='12' class='td_msg'> Descargando archivo.</td></tr>";
+			tableBody.appendChild(tr);
+			}
+
+
+
+//insert
+        async function insertPeriod() {
+            const period = document.getElementById('period-select').value;
+            const period_dest = document.getElementById('period-dest').value;
+            const porc_bi = document.getElementById('porc_bi').value;
+            const porc_compras = document.getElementById('porc_compras').value;
+            const perc_iva = document.getElementById('perc_iva').value;
+            const perc_iibb = document.getElementById('perc_iibb').value;
+            const response = await fetch(`/insert?period=${period}&period_dest=${period_dest}&porc_bi=${porc_bi}&porc_compras=${porc_compras}&perc_iva=${perc_iva}&perc_iibb=${perc_iibb}`);
+            const data = await response.json();
+            document.querySelector("#data-table thead tr th:nth-child(3)").style.left = "0px";  
+            const tableBody = document.querySelector('#data-table tbody');
+            
+            tableBody.innerHTML = '';
+			const tr = document.createElement('tr');
+           	tr.innerHTML ="<td colspan='12' class='td_msg'> "+data.msg+".</td></tr>";
+			tableBody.appendChild(tr);
+			}
+
+
+//data
+        async function fetchData() {
+            const period = document.getElementById('period-select').value;
+            const response = await fetch(`/data?period=${period}`);
+            const data = await response.json();
+            const tableBody = document.querySelector('#data-table tbody');
+            tableBody.innerHTML = '';
+            const test=Array.isArray(data);
+            if (data.length>0) {
+
+            	const thirdTH = document.querySelector("#data-table thead tr th:nth-child(3)");
+
+            	const int_l=new Intl.NumberFormat('es-AR', {
+  								minimumFractionDigits: 2,
+  								maximumFractionDigits: 2
+								});
+            	data.forEach(row => {
+                	const tr = document.createElement('tr');
+                	tr.className='tr3';
+                	const bi = row.base_imponible;
+					const saldo_iibb=row.saldo_iibb;
+					const saldo_iva=row.saldo_iva;
+					const alic_iva=row.alicuota_iva;
+					const alic_iibb=row.alicuota_iibb;
+					const debito_iva=bi*alic_iva/100;
+					const debito_iibb=bi*alic_iibb/100;
+					const compra_iva=parseFloat(row.compra_iva);
+					const iva_credito =compra_iva*alic_iva/100; 
+					const venta_total = parseFloat(bi) + debito_iva;
+					console.log("venta total: "+venta_total);
+					const compra_total = compra_iva + iva_credito;
+					
+                	tr.innerHTML = `
+                    	<td class="td3">${row.id_establecimiento}</td>
+                    	<td class="td3">${row.nro_cuit}</td>
+                    	<td class="td3">${row.nombre_responsable}</td>
+                    	<td class="td3">${row.direccion_establecimiento}</td>
+                    	<td class="td3">${row.id_zona}</td>
+                    	<td class="td3">${row.periodo}</td>
+                    	<td class="td3">${alic_iva}</td>
+                    	<td class="td3">${alic_iibb}</td>
+                    	<td class="td3">${int_l.format(bi)}</td>
+                    	<td class="td3">${int_l.format(debito_iva)}</td>
+                    	<td class="td3">${int_l.format(venta_total)}</td>
+                    	<td class="td3">${int_l.format(compra_iva)}</td>
+                    	<td class="td3">${int_l.format(iva_credito)}</td>
+                    	<td class="td3">${int_l.format(compra_total)}</td>
+                    	<td class="td3">${int_l.format(row.percepcion_iva)}</td>
+                    	<td class="td3" style="background-color:#afeeeea1;">${int_l.format(saldo_iva)}</td>
+                       	<td class="td3">${int_l.format(debito_iibb)}</td>
+                    	<td class="td3">${int_l.format(row.percepcion_iibb)}</td>
+                    	<td class="td3" style="background-color:#ffe4c4a1;">${int_l.format(saldo_iibb)}</td>
+
+                    	<td class="td3">${int_l.format(saldo_iva)}</td>
+                    	<td class="td3">${int_l.format(saldo_iibb)}</td>
+                	`;
+                	tableBody.appendChild(tr);
+            	});
+            }
+ 		else {
+ 			const pr_ht=document.querySelector("#data-table thead tr th:nth-child(3)");
+ 			pr_ht.style.left = "0px";
+ 			const tr = document.createElement('tr');
+            tr.innerHTML ="<td colspan='12' class='td_msg'> No se encontraron registros para el periodo.</td></tr>";
+ 			tableBody.appendChild(tr);
+ 			}
+            
+        }
+
+    </script>
+
+</body>
+</html>
