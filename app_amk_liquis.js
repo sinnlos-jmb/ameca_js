@@ -70,7 +70,7 @@ app.get('/data', async (req, res) => {
         const rows = await conn.query("SELECT elm.id_establecimiento, c.nombre_responsable, e.direccion_establecimiento, c.nro_cuit, elm.periodo, elm.base_imponible, elm.percepcion_iva, elm.percepcion_iibb, elm.compra_iva, elm.alicuota_iva, elm.alicuota_iibb, elm.saldo_iibb, elm.saldo_iva, elm.saldo_iva_reporte, elm.saldo_iibb_reporte, z.Zona as id_zona, e.id_comercio "+
 " FROM EstablecimientosLiquiMes elm LEFT JOIN Establecimientos e ON elm.id_establecimiento = e.id_establecimiento LEFT JOIN Comercios c ON e.id_comercio = c.id_comercio LEFT JOIN Zonas z ON e.id_zona = z.idZona WHERE elm.periodo = '"+period+"' order by id_comercio");
         conn.release();
-        //console.log("Fetched records:", rows.length); // Debugging line
+        //console.log("Fetched records:", rows.length);
         res.json(rows);
         
     } catch (error) {
@@ -95,7 +95,6 @@ app.get('/insert', async (req, res) => {
 /*	*/
     try {
     //bi: 14.603.397,09  compra-iva: 12.438.423,04) * 0,21 - perc_iva: 210.065,80
-    //bi:
     //round(((base_imponible-compra_iva )*alicuota_iva/100)-percepcion_iva , 2)
 
         const query =" INSERT INTO EstablecimientosLiquiMes (id_establecimiento, base_imponible, compra_iva, percepcion_iva, percepcion_iibb, periodo, alicuota_iibb, alicuota_iva, alicuota_pago_facil, activo_iva_periodo, activo_iibb_periodo, saldo_iva, saldo_iibb) SELECT id_establecimiento, @bi := base_imponible * (1+"+porc_bi+"/100), @c_iva:= compra_iva * (1+"+porc_compras+"/100), @perc_iva:=percepcion_iva * (1+"+perc_iva+"/100), @perc_iibb:=percepcion_iibb * (1+"+perc_iibb+"/100), '"+period_dest+"', alicuota_iibb, alicuota_iva, alicuota_pago_facil, activo_iva_periodo, activo_iibb_periodo, (@bi-@c_iva )*alicuota_iva/100-@perc_iva, @bi*alicuota_iibb/100-@perc_iibb FROM EstablecimientosLiquiMes  WHERE periodo = '"+period+"'";
