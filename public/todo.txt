@@ -1,0 +1,37 @@
+3). ameca: 
+
+. TODO: 
+..Ok. usar dotenv
+..Ok. separar el css
+..Ok. levantar server al iniciar
+..Ok. cargar el html en ruta /
+..Ok. agregar proyecto a git
+.. guardar un periodo en json y poder cargarlo. 
+.. agregar mini row con sumatoria de establecimientos del mismo comercio.
+.. agregar columna de observaciones, editable.
+
+..Ok. columnas fijas se solapan con tamaños de pantalla (problema con chrome era).
+..Ok. snapshots (almacenar y recuperar).
+..Ok. eliminar datos de un periodo.
+..Ok.  valores diferentes para porcentaje:
+ 	... base imponible, 
+ 	... porcentaje compras, 
+ 	... porcentaje percepcion_iva, 
+ 	... porcentaje percepcion iibb
+..Ok. cargar siempre data en tabla o dejar msg, eg, si no hay registros para periodos aparecerá leyenda en la tabla... se podrían poner más de un mensaje: insert=>periodo populated, fetch ok, delete=> periodo deleted).
+..OK. usar la tabla con colspan para mensajes.
+..out. poner nombre al snap.
+..OK. orden de columnas: id, cuit, nombre, calle, zona, periodo, alicuota iva, alicuota iibb, base imponible, iva_debito, venta total, compra_iva, credito iva, compra total, percepcion_iva, saldo_iva (saldos color diferente), debito iibb, percepcion_iibb, saldo_iibb, saldo_iva_reporte, saldo_iibb_reporte. 
+..OK. agregar:
+			zona, 
+			iva_debito (bi*alicuota iva/100), 
+			iibb debito (bi*alic_ibb/100), 
+			iva_credito (compra_iva*alicuota_iva/100), 
+			venta_total (bi + debito_iva), 
+			compra_total (compra_iva + iva_credito).
+			@perc_iva:=percepcion_iva * (1+"+perc_iva+"/100)
+			Saldo IVA: IVA débito - IVA crédito - percepción Iva
+			saldo_iva=(base_imponible-compra_iva )*alicuota_iva/100-percepcion_iva
+			saldo_iibb=(base_imponible *alicuota_iibb/100)-percepcion_iibb
+.OK.. saldo iva reoprte = saldo iva, saldo iibb reporte = saldo iibb
+.OK.. descargar excel (y volver a cargar en periodo).
